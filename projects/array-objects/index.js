@@ -9,7 +9,11 @@
  Пример:
    forEach([1, 2, 3], (el) => console.log(el)); // выведет каждый элемент массива
  */
-function forEach() {}
+function forEach(array, fn) {
+  for (let i = 0; i < array.length; i++) {
+    fn(array[i], i, array);
+  }
+}
 
 /*
  Задание 2:
@@ -21,7 +25,13 @@ function forEach() {}
    const newArray = map([1, 2, 3], (el) => el ** 2);
    console.log(newArray); // выведет [1, 4, 9]
  */
-function map() {}
+function map(array, fn) {
+  const result = [];
+  for (let i = 0; i < array.length; i++) {
+    result[i] = fn(array[i], i, array);
+  }
+  return result;
+}
 
 /*
  Задание 3:
@@ -33,7 +43,16 @@ function map() {}
    const sum = reduce([1, 2, 3], (all, current) => all + current);
    console.log(sum); // выведет 6
  */
-function reduce() {}
+function reduce(array, fn, initial) {
+  const hasInitial = typeof initial !== 'undefined';
+  let prev = hasInitial ? initial : array[0];
+
+  for (let i = hasInitial ? 0 : 1; i < array.length; i++) {
+    prev = fn(prev, array[i], i, array);
+  }
+
+  return prev;
+}
 
 /*
  Задание 4:
@@ -44,6 +63,12 @@ function reduce() {}
    const keys = upperProps({ name: 'Сергей', lastName: 'Петров' });
    console.log(keys) // выведет ['NAME', 'LASTNAME']
  */
-function upperProps() {}
+function upperProps(obj) {
+  const result = [];
+  for (const prop in obj) {
+    result.push(prop.toUpperCase());
+  }
+  return result;
+}
 
 export { forEach, map, reduce, upperProps };
