@@ -11,6 +11,9 @@
    createDivWithText('loftschool') // создаст элемент div, поместит в него 'loftschool' и вернет созданный элемент
  */
 function createDivWithText(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div;
 }
 
 /*
@@ -22,6 +25,7 @@ function createDivWithText(text) {
    prepend(document.querySelector('#one'), document.querySelector('#two')) // добавит элемент переданный первым аргументом в начало элемента переданного вторым аргументом
  */
 function prepend(what, where) {
+  where.prepend(what);
 }
 
 /*
@@ -44,6 +48,13 @@ function prepend(what, where) {
    findAllPSiblings(document.body) // функция должна вернуть массив с элементами div и span т.к. следующим соседом этих элементов является элемент с тегом P
  */
 function findAllPSiblings(where) {
+  const result = [];
+  for (const elem of where.children) {
+    if (elem !== where.lastElementChild && elem.nextElementSibling.tagName === 'P') {
+      result.push(elem);
+    }
+  }
+  return result;
 }
 
 /*
@@ -66,7 +77,7 @@ function findAllPSiblings(where) {
 function findError(where) {
   const result = [];
 
-  for (const child of where.childNodes) {
+  for (const child of where.children) {
     result.push(child.textContent);
   }
 
@@ -86,6 +97,14 @@ function findError(where) {
    должно быть преобразовано в <div></div><p></p>
  */
 function deleteTextNodes(where) {
+  for (let i = 0; i < where.childNodes.length; i++) {
+    const elem = where.childNodes[i];
+
+    if (elem.nodeType === 3) {
+      elem.remove();
+      i--;
+    }
+  }
 }
 
 /*
@@ -109,6 +128,38 @@ function deleteTextNodes(where) {
    }
  */
 function collectDOMStat(root) {
+  const result = {
+    tags: {},
+    classes: {},
+    texts: 0,
+  };
+
+  function newPropertySum(prop, val) {
+    if (typeof prop[val] == 'undefined') {
+      prop[val] = 1;
+    } else {
+      prop[val]++;
+    }
+  }
+
+  function immersion(root) {
+    for (const elem of root.childNodes) {
+      if (elem.nodeType === 3) {
+        result.texts++;
+      } else if (elem.nodeType === 1) {
+        newPropertySum(result.tags, elem.tagName);
+
+        for (const nameClass of elem.classList) {
+          newPropertySum(result.classes, nameClass);
+        }
+
+        immersion(elem);
+      }
+    }
+  }
+
+  immersion(root);
+  return result;
 }
 
 export {
