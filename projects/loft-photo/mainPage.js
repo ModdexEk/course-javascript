@@ -20,16 +20,16 @@ export default {
     let startFrom;
 
     document.querySelector('.component-photo').addEventListener('touchstart', (e) => {
-        e.preventDefault();
-        startFrom = { y: e.changedTouches[0].pageY};
+      e.preventDefault();
+      startFrom = { y: e.changedTouches[0].pageY };
     });
 
     document.querySelector('.component-photo').addEventListener('touchend', async (e) => {
-        const direction = e.changedTouches[0].pageY - startFrom.y;
+      const direction = e.changedTouches[0].pageY - startFrom.y;
 
-        if (direction < 0) {
-            await this.getNextPhoto();
-        }
+      if (direction < 0) {
+        await this.getNextPhoto();
+      }
     });
   },
 };

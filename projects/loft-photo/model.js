@@ -1,6 +1,6 @@
 const PERM_FRIENDS = 2;
 const PERM_PHOTOS = 4;
-const APP_ID = 5350105;
+const APP_ID = 51902643;
 
 export default {
   getRandomElement(array) {
@@ -37,8 +37,8 @@ export default {
   },
 
   async init() {
-   this.photoCache = {};
-   this.friends = await this.getFriends();
+    this.photoCache = {};
+    this.friends = await this.getFriends();
   },
 
   login() {
@@ -101,5 +101,4 @@ export default {
 
     return photos;
   },
-
 };
